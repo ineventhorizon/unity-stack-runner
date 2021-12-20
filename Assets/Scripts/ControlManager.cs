@@ -33,7 +33,6 @@ public class ControlManager : MonoBehaviour
             cmd.ExecuteCommand();
         }
     }
-
     public void IssueCommand(Command cmd)
     {
         queuedCommands.Enqueue(cmd);
@@ -50,7 +49,6 @@ public abstract class Command
 
 public class PlayerMove : Command
 {
-
     private Vector3 direction;
     private Transform objectToMove;
     private float speed;
@@ -60,16 +58,25 @@ public class PlayerMove : Command
         direction = new Vector3(direction.x * sideSpeed, direction.y, direction.z * speed);
         objectToMove.position += direction * Time.deltaTime;
     }
-    //public override void UndueCommand()
-    //{
-    //    throw new System.NotImplementedException();
-    //}
-
     public PlayerMove(Transform _objectToMove, Vector3 _direction, float _speed, float _sideSpeed)
     {
         objectToMove = _objectToMove;
         direction = _direction;
         speed = _speed;
         sideSpeed = _sideSpeed;
+    }
+}
+public class FollowPlayer : Command
+{
+    private Transform player;
+    private Transform stack;
+    public FollowPlayer(Transform _player, Transform _stack)
+    {
+        player = _player;
+        stack = _stack;
+    }
+    public override void ExecuteCommand()
+    {
+        stack.position = player.position + Vector3.forward;
     }
 }

@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
             StartMovement = !StartMovement;
         } if (StartMovement) MyMovementObserver?.Invoke();
     }
-
     private void MovePlayer()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -32,6 +31,4 @@ public class Player : MonoBehaviour
         Command playerMove = new PlayerMove(this.transform, direction, speed, sideSpeed);
         ControlManager.Instance.IssueCommand(playerMove);
     }
-
-    
 }
