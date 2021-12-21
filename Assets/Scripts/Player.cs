@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] public float speed, sideSpeed;
     [SerializeField] private Animator animator;
+    [SerializeField] private float clampValueMin, clampValueMax;
     private bool StartMovement = false;
     private Observer.StartMovement MyMovementObserver;
     private Command playerMove;
@@ -31,7 +32,7 @@ public class Player : MonoBehaviour
         direction = new Vector3(horizontal, 0, 1);
         //Debug.Log(direction);
         animator.SetBool("Run", true);
-        playerMove = new PlayerMove(this.transform, direction, speed, sideSpeed);
+        playerMove = new PlayerMove(this.transform, direction, speed, sideSpeed, clampValueMin, clampValueMax);
         ControlManager.Instance.IssueCommand(playerMove);
     }
 }

@@ -25,6 +25,9 @@ public class Collectable : MonoBehaviour
         {
             //Debug.Log(collision.collider.transform.position);
             AddToStack(collision.collider.transform);
+        }if (collision.gameObject.CompareTag("Obstacle") && isCollected)
+        {
+            RemoveFromStack(collision.transform);
         }
        
     }
@@ -49,8 +52,21 @@ public class Collectable : MonoBehaviour
 
     }
 
-    private void RemoveFromStack()
+    private void RemoveFromStack(Transform obstacleContactPoint)
     {
+
+        Vector3 test = this.transform.position - obstacleContactPoint.position;
+        //Debug.Log(test.normalized);
+
+        if (test.z < 0) 
+        {
+            Debug.Log("Direct");
+            Destroy(this.gameObject);
+            PlayerCollector.Instance.stack.Remove(this.transform);
+        } 
+        else Debug.Log("Side");
         //TODO
+        
+        
     }
 }

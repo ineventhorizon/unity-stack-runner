@@ -53,19 +53,26 @@ public class PlayerMove : Command
     private Transform objectToMove;
     private float speed;
     private float sideSpeed;
+    private float clampValueMin, clampValueMax;
 
     private Vector3 offset;
     private float radius;
-    private Vector3 oldPosition;
+    private Vector3 tempPosition;
     public override void ExecuteCommand()
     {
-        oldPosition = objectToMove.position;
+        tempPosition = objectToMove.position;
         direction = new Vector3(direction.x * sideSpeed, direction.y, direction.z * speed);
-
+        tempPosition.x = Mathf.Clamp(tempPosition.x, clampValueMin, clampValueMax);
+        objectToMove.position = tempPosition;
         objectToMove.position += direction * Time.deltaTime ;
+
+
     }
-    public PlayerMove(Transform _objectToMove, Vector3 _direction, float _speed, float _sideSpeed)
+    public PlayerMove(Transform _objectToMove, Vector3 _direction, float _speed, float _sideSpeed, float _clampValueMin, float _clampValueMax)
+
     {
+        clampValueMin = _clampValueMin;
+        clampValueMax = _clampValueMax;
         objectToMove = _objectToMove;
         direction = _direction;
         speed = _speed;

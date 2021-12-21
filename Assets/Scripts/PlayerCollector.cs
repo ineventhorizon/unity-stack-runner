@@ -38,8 +38,6 @@ public class PlayerCollector : MonoBehaviour
                 stack[i].position = Vector3.Lerp(stack[i - 1].position +Vector3.forward * (gap), stack[i].position, 0.8f);
             }
         }
-       
-
     }
 
     void FollowPlayer()
@@ -47,6 +45,7 @@ public class PlayerCollector : MonoBehaviour
         //ControlManager.Instance.Move(this.transform, player.transform.position, 0, 0);
     }
 
+    
     private void RemoveObject(GameObject objectToRemove)
     {
         //TODO
