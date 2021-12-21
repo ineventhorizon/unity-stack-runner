@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Road
   - Collectable
+  - Stack
   layers:
   - Default
   - TransparentFX
@@ -13,8 +14,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Collectable
+  - Stack
   - 
   - 
   - 

@@ -9,7 +9,8 @@ public class RoadManager : MonoBehaviour
     [SerializeField] private GameObject finalRoad;
     [SerializeField] private List<GameObject> roads;
     [SerializeField] private Transform parent;
-    [SerializeField] private bool isThereFinal = false;
+    //TODO
+    //[SerializeField] private bool isThereFinal = false;
     private static RoadManager instance;
     public static RoadManager Instance => instance ?? (instance = instance = FindObjectOfType<RoadManager>());
     // Start is called before the first frame update

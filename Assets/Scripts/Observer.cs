@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 //using UnityEngine.Events;
 
-public class PlayerObserver
+public class Observer
 {
     public  delegate void StartMovement();
 }

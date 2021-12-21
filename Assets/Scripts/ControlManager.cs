@@ -53,10 +53,16 @@ public class PlayerMove : Command
     private Transform objectToMove;
     private float speed;
     private float sideSpeed;
+
+    private Vector3 offset;
+    private float radius;
+    private Vector3 oldPosition;
     public override void ExecuteCommand()
     {
+        oldPosition = objectToMove.position;
         direction = new Vector3(direction.x * sideSpeed, direction.y, direction.z * speed);
-        objectToMove.position += direction * Time.deltaTime;
+
+        objectToMove.position += direction * Time.deltaTime ;
     }
     public PlayerMove(Transform _objectToMove, Vector3 _direction, float _speed, float _sideSpeed)
     {
@@ -77,6 +83,23 @@ public class FollowPlayer : Command
     }
     public override void ExecuteCommand()
     {
-        stack.position = player.position + Vector3.forward;
+        stack.position = Vector3.Lerp(player.position + Vector3.forward,stack.position, 0.7f);
+    }
+}
+
+public class AddCollectable : Command
+{
+    private Transform collectable;
+    private Transform newPosition;
+
+    public AddCollectable(Transform _collectable, Transform _newPosition)
+    {
+        collectable = _collectable;
+        newPosition = _newPosition;
+    }
+
+    public override void ExecuteCommand()
+    {
+        throw new System.NotImplementedException();
     }
 }

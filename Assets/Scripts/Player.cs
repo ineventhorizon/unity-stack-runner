@@ -7,7 +7,10 @@ public class Player : MonoBehaviour
     [SerializeField] public float speed, sideSpeed;
     [SerializeField] private Animator animator;
     private bool StartMovement = false;
-    private PlayerObserver.StartMovement MyMovementObserver;
+    private Observer.StartMovement MyMovementObserver;
+    private Command playerMove;
+    private float horizontal;
+    private Vector3 direction;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,11 +27,11 @@ public class Player : MonoBehaviour
     }
     private void MovePlayer()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        Vector3 direction = new Vector3(horizontal, 0, 1);
+        horizontal = Input.GetAxisRaw("Horizontal");
+        direction = new Vector3(horizontal, 0, 1);
         //Debug.Log(direction);
         animator.SetBool("Run", true);
-        Command playerMove = new PlayerMove(this.transform, direction, speed, sideSpeed);
+        playerMove = new PlayerMove(this.transform, direction, speed, sideSpeed);
         ControlManager.Instance.IssueCommand(playerMove);
     }
 }
