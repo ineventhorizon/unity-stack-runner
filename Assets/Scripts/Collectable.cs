@@ -15,12 +15,13 @@ public class Collectable : MonoBehaviour
     }
     private void Update()
     {
-        
+       
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Stack"))
+        if (collision.gameObject.CompareTag("Stack") 
+            || (collision.gameObject.CompareTag("Collectable")&& !isCollected))
         {
             //Debug.Log(collision.collider.transform.position);
             AddToStack(collision.collider.transform);
@@ -41,7 +42,7 @@ public class Collectable : MonoBehaviour
         this.isCollected = true;
         //this.transform.SetParent(PlayerCollector.Instance.transform);
         //this.gameObject.layer = 7;
-        this.transform.position = new Vector3(point.position.x, 1f, PlayerCollector.Instance.gap*index);
+        //this.transform.position = new Vector3(point.position.x, 1f, PlayerCollector.Instance.gap*index);
         Debug.Log($"{PlayerCollector.Instance.stackCount}  {point.name}----> {this.name} ");
         PlayerCollector.Instance.stackCount++;
         offset = this.transform.position;
