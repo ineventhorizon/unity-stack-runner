@@ -85,7 +85,6 @@ public class FollowPlayer : Command
         stack.position = Vector3.Lerp(player.position + Vector3.forward,stack.position, 0.7f);
     }
 }
-
 public class AddCollectable : Command
 {
     private Transform collectable;
@@ -101,3 +100,4 @@ public class AddCollectable : Command
         throw new System.NotImplementedException();
     }
 }
+

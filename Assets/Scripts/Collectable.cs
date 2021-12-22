@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Collectable : MonoBehaviour
 {
-    [SerializeField] public bool isCollected;
-
+    [SerializeField] private bool isCollected;
+    private int Level = 0;
+    private void Start()
+    {
+        Observer.collected += Collected;
+        Observer.dropped += Dropped;
+    }
 
     private void Awake()
     {
@@ -28,13 +34,15 @@ public class Collectable : MonoBehaviour
 
     private void AddToStack(Transform point)
     {
-        if (isCollected)
+        if (this.isCollected)
         {
             return;
         }
         this.gameObject.tag = "Stack";
+        //this.isCollected = true;
+        Observer.collected?.Invoke(this);
         PlayerCollector.Instance.stack.Add(this);
-        this.isCollected = true;
+        
     }
 
     private void RemoveFromStack(Transform obstacleContactPoint)
@@ -50,5 +58,19 @@ public class Collectable : MonoBehaviour
             //Side
             PlayerCollector.Instance.RemoveCollectableMultiple(this, obstacleContactPoint.localPosition);
         }
+    }
+
+    public void Upgrade()
+    {
+        //TODO
+    }
+
+    private void Collected(Collectable collectable)
+    {
+        collectable.isCollected = true;
+    }
+    private void Dropped(Collectable collectable)
+    {
+        collectable.isCollected = false;
     }
 }

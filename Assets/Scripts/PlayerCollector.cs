@@ -51,11 +51,11 @@ public class PlayerCollector : MonoBehaviour
         for (int i = lastIndex; i >= index; i--)
         {
             newPos = stack[i].transform.position;
-            newPos.x = Random.Range(0, 6);
-            newPos.z = stack[index].transform.position.z + Random.Range(10, 18);
+            newPos.x = Random.Range(0.0f, 6.0f);
+            newPos.z = stack[index].transform.position.z + Random.Range(10.0f, 18.0f);
 
             stack[i].transform.position = newPos;
-            stack[i].isCollected = false;
+            Observer.dropped?.Invoke(stack[i]);
             stack[i].gameObject.tag = "Collectable";
             stack.RemoveAt(i);
         }
