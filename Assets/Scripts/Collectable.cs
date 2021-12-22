@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    [SerializeField] private bool isCollected;
-    private int index;
-    private Vector3 collidePoint;
-    private Vector3 offset;
+    [SerializeField] public bool isCollected;
+
 
     private void Awake()
     {
@@ -40,33 +38,27 @@ public class Collectable : MonoBehaviour
             Debug.Log("Already collected!");
             return;
         }
-        index = PlayerCollector.Instance.stackCount;
-        PlayerCollector.Instance.stack.Add(this.transform);
+        PlayerCollector.Instance.stack.Add(this);
         this.isCollected = true;
-        //this.transform.SetParent(PlayerCollector.Instance.transform);
-        //this.gameObject.layer = 7;
-        //this.transform.position = new Vector3(point.position.x, 1f, PlayerCollector.Instance.gap*index);
-        Debug.Log($"{PlayerCollector.Instance.stackCount}  {point.name}----> {this.name} ");
-        PlayerCollector.Instance.stackCount++;
-        offset = this.transform.position;
+        //Debug.Log($"{PlayerCollector.Instance.stack.IndexOf(this)}  {point.name}----> {this.name} ");
 
     }
 
     private void RemoveFromStack(Transform obstacleContactPoint)
     {
 
-        Vector3 test = this.transform.position - obstacleContactPoint.position;
+        Vector3 collidePoint = this.transform.position - obstacleContactPoint.position;
         //Debug.Log(test.normalized);
 
-        if (test.z < 0) 
+        if (collidePoint.z < 0) 
         {
             Debug.Log("Direct");
-            Destroy(this.gameObject);
-            PlayerCollector.Instance.stack.Remove(this.transform);
-        } 
-        else Debug.Log("Side");
-        //TODO
-        
-        
+            PlayerCollector.Instance.RemoveCollectableSingle(this); 
+        }
+        else
+        {
+            Debug.Log("Side");
+            PlayerCollector.Instance.RemoveCollectableMultiple(this);
+        }
     }
 }
