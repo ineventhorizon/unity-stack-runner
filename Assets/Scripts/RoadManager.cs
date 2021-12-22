@@ -20,19 +20,12 @@ public class RoadManager : MonoBehaviour
         instance = instance ??= this;
         Debug.Log(instance);
     }
-
-    private void Start()
-    {
-        
-    }
-
     [Button]
     void CreateRoad()
     {
         float roadPosition = myRoad.transform.localScale.z * roads.Count;
         float finalPosition = roadPosition + myRoad.transform.localPosition.z;
         roads.Add(Instantiate(myRoad, new Vector3(0, 0 , roadPosition) , Quaternion.identity, parent));
-        //moveFinal(new Vector2(0, finalPosition));
     }
     [Button]
     void DeleteRoad()
@@ -40,7 +33,6 @@ public class RoadManager : MonoBehaviour
         float finalPosition = myRoad.transform.localScale.z*(roads.Count - 1);
         DestroyImmediate(roads[roads.Count - 1]);
         roads.RemoveAt(roads.Count - 1);
-        //moveFinal(new Vector2(0, finalPosition));
     }
 
     void moveFinal(Vector2 position)

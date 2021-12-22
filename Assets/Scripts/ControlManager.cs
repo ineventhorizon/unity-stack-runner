@@ -14,10 +14,7 @@ public class ControlManager : MonoBehaviour
     }
     private static ControlManager instance;
     public static ControlManager Instance => instance ?? (instance = FindObjectOfType<ControlManager>());
-    
     private Queue<Command> queuedCommands = new Queue<Command>();
-    
-    // Start is called before the first frame update
     private void Awake()
     {
         instance = instance ??= this;
@@ -54,9 +51,6 @@ public class PlayerMove : Command
     private float speed;
     private float sideSpeed;
     private float clampValueMin, clampValueMax;
-
-    private Vector3 offset;
-    private float radius;
     private Vector3 tempPosition;
     public override void ExecuteCommand()
     {
@@ -65,8 +59,6 @@ public class PlayerMove : Command
         tempPosition.x = Mathf.Clamp(tempPosition.x, clampValueMin, clampValueMax);
         objectToMove.position = tempPosition;
         objectToMove.position += direction * Time.deltaTime ;
-
-
     }
     public PlayerMove(Transform _objectToMove, Vector3 _direction, float _speed, float _sideSpeed, float _clampValueMin, float _clampValueMax)
 
@@ -104,7 +96,6 @@ public class AddCollectable : Command
         collectable = _collectable;
         newPosition = _newPosition;
     }
-
     public override void ExecuteCommand()
     {
         throw new System.NotImplementedException();

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
 public class PlayerCollector : MonoBehaviour
 {
     enum Direction
@@ -34,29 +34,31 @@ public class PlayerCollector : MonoBehaviour
         {
 
             oldPos = stack[0].transform.position;
-            //stack[0].position = transform.position + Vector3.forward * gap;
             stack[0].transform.position = Vector3.Lerp(transform.position + Vector3.forward * gap, oldPos, 0.8f);
             for (int i = 1; i < stack.Count; i++)
             {
-                //stack[i].position = transform.position + Vector3.forward * (gap * (i+1));
                 stack[i].transform.position = Vector3.Lerp(stack[i - 1].transform.position +Vector3.forward * (gap), stack[i].transform.position, 0.8f);
             }
         }
     }
 
-    public void RemoveCollectableMultiple(Collectable collectable)
+    public void RemoveCollectableMultiple(Collectable collectable, Vector3 contactPoint)
     {
         int index = stack.IndexOf(collectable);
         int lastIndex = stack.Count - 1;
 
-        
-        for (int i = index; i < lastIndex; i++)
+        Vector3 newPos;
+        for (int i = lastIndex; i >= index; i--)
         {
+            newPos = stack[i].transform.position;
+            newPos.x = Random.Range(0, 6);
+            newPos.z = stack[index].transform.position.z + Random.Range(10, 18);
+
+            stack[i].transform.position = newPos;
             stack[i].isCollected = false;
-            stack[i].transform.localPosition += RandomPosition()* Random.Range(3, 5);
+            stack[i].gameObject.tag = "Collectable";
+            stack.RemoveAt(i);
         }
-        stack.RemoveRange(index, (lastIndex - index));
-        
     }
     public void RemoveCollectableSingle(Collectable collectable)
     {
@@ -67,17 +69,6 @@ public class PlayerCollector : MonoBehaviour
     {
         //TODO
     }
-
-    private Vector3 RandomPosition()
-    {
-        //TODO
-        Vector3 randomDirection = new Vector3(Random.Range(-1, 1), 0 , Random.Range(-1, 1));
-
-        return randomDirection;
-    }
-
-
-
 
 }
 

@@ -17,8 +17,6 @@ public class Player : MonoBehaviour
     {
         MyMovementObserver += MovePlayer;
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -30,7 +28,6 @@ public class Player : MonoBehaviour
     {
         horizontal = Input.GetAxisRaw("Horizontal");
         direction = new Vector3(horizontal, 0, 1);
-        //Debug.Log(direction);
         animator.SetBool("Run", true);
         playerMove = new PlayerMove(this.transform, direction, speed, sideSpeed, clampValueMin, clampValueMax);
         ControlManager.Instance.IssueCommand(playerMove);
