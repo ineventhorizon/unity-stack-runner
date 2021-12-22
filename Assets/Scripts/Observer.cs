@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Observer
 {
-    public delegate void StartMovement();
+    public static UnityAction StartMovement;
     public static UnityAction<Collectable> collected;
     public static UnityAction<Collectable> dropped;
 }

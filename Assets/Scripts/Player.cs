@@ -7,22 +7,21 @@ public class Player : MonoBehaviour
     [SerializeField] public float speed, sideSpeed;
     [SerializeField] private Animator animator;
     [SerializeField] private float clampValueMin, clampValueMax;
-    private bool StartMovement = false;
-    private Observer.StartMovement MyMovementObserver;
+    private bool startMovement = false;
     private Command playerMove;
     private float horizontal;
     private Vector3 direction;
     // Start is called before the first frame update
     void Start()
     {
-        MyMovementObserver += MovePlayer;
+        Observer.StartMovement += MovePlayer;
     }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartMovement = !StartMovement;
-        } if (StartMovement) MyMovementObserver?.Invoke();
+            startMovement = !startMovement;
+        } if (startMovement) Observer.StartMovement?.Invoke();
     }
     private void MovePlayer()
     {

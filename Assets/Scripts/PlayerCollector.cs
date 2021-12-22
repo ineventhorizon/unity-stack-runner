@@ -24,6 +24,11 @@ public class PlayerCollector : MonoBehaviour
         instance = instance ??= this;
         Debug.Log(instance);
     }
+    private void Start()
+    {
+        Observer.collected += Collected;
+        Observer.dropped += Dropped;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -68,6 +73,16 @@ public class PlayerCollector : MonoBehaviour
     public void AddToStack(Collectable collectable)
     {
         //TODO
+    }
+
+    private void Collected(Collectable collectable)
+    {
+        collectable.gameObject.tag = "Stack";
+        collectable.isCollected = true;
+    }
+    private void Dropped(Collectable collectable)
+    {
+        collectable.isCollected = false;
     }
 
 }
