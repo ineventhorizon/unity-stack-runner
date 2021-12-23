@@ -9,7 +9,7 @@ public class Collectable : MonoBehaviour
     [SerializeField] public int collectableLevel;
     private void Start()
     {
-        this.collectableLevel = 0;
+
     }
 
     private void Awake()

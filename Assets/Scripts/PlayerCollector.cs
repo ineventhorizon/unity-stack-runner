@@ -87,7 +87,7 @@ public class PlayerCollector : MonoBehaviour
     private void Upgrade(Collectable collectableRef)
     {
         collectableRef.transform.GetChild(collectableRef.collectableLevel).gameObject.SetActive(false);
-        collectableRef.collectableLevel = collectableRef.collectableLevel +1 >= 1 ? 1 : collectableRef.collectableLevel;
+        collectableRef.collectableLevel = collectableRef.collectableLevel +1 >= 2 ? 2 : collectableRef.collectableLevel+1;
         collectableRef.transform.GetChild(collectableRef.collectableLevel).gameObject.SetActive(true);
         Observer.score?.Invoke(10);
     }
