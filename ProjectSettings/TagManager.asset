@@ -8,6 +8,7 @@ TagManager:
   - Collectable
   - Stack
   - Obstacle
+  - Gate
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - UI
   - Collectable
   - Stack
-  - 
+  - Gate
   - 
   - 
   - 

@@ -28,6 +28,7 @@ public class PlayerCollector : MonoBehaviour
     {
         Observer.collected += Collected;
         Observer.dropped += Dropped;
+        Observer.upgraded += Upgrade;
     }
     // Update is called once per frame
     void Update()
@@ -47,9 +48,9 @@ public class PlayerCollector : MonoBehaviour
         }
     }
 
-    public void RemoveCollectableMultiple(Collectable collectable, Vector3 contactPoint)
+    public void RemoveCollectableMultiple(Collectable collectableRef, Vector3 contactPoint)
     {
-        int index = stack.IndexOf(collectable);
+        int index = stack.IndexOf(collectableRef);
         int lastIndex = stack.Count - 1;
 
         Vector3 newPos;
@@ -61,30 +62,35 @@ public class PlayerCollector : MonoBehaviour
 
             stack[i].transform.position = newPos;
             Observer.dropped?.Invoke(stack[i]);
-            stack[i].gameObject.tag = "Collectable";
             stack.RemoveAt(i);
         }
     }
-    public void RemoveCollectableSingle(Collectable collectable)
+    public void RemoveCollectableSingle(Collectable collectableRef)
     {
-        stack.Remove(collectable);
-        Destroy(collectable.gameObject);
+        Observer.score?.Invoke(-10 * (collectableRef.collectableLevel + 1));
+        stack.Remove(collectableRef);
+        Destroy(collectableRef.gameObject);
     }
-    public void AddToStack(Collectable collectable)
+    private void Collected(Collectable collectableRef)
     {
-        //TODO
+        stack.Add(collectableRef);
+        Observer.score?.Invoke(10);
+        collectableRef.gameObject.tag = "Stack";
+        collectableRef.isCollected = true;
     }
-
-    private void Collected(Collectable collectable)
+    private void Dropped(Collectable collectableRef)
     {
-        collectable.gameObject.tag = "Stack";
-        collectable.isCollected = true;
+        collectableRef.gameObject.tag = "Collectable";
+        Observer.score?.Invoke((collectableRef.collectableLevel + 1) * -10);
+        collectableRef.isCollected = false;
     }
-    private void Dropped(Collectable collectable)
+    private void Upgrade(Collectable collectableRef)
     {
-        collectable.isCollected = false;
+        collectableRef.transform.GetChild(collectableRef.collectableLevel).gameObject.SetActive(false);
+        collectableRef.collectableLevel = collectableRef.collectableLevel +1 >= 1 ? 1 : collectableRef.collectableLevel;
+        collectableRef.transform.GetChild(collectableRef.collectableLevel).gameObject.SetActive(true);
+        Observer.score?.Invoke(10);
     }
-
 }
 
 

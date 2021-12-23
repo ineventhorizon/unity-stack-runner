@@ -6,10 +6,10 @@ using UnityEngine.Events;
 public class Collectable : MonoBehaviour
 {
     [SerializeField] public bool isCollected;
-    private int Level = 0;
+    [SerializeField] public int collectableLevel;
     private void Start()
     {
-        
+        this.collectableLevel = 0;
     }
 
     private void Awake()
@@ -24,25 +24,33 @@ public class Collectable : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Stack"))
         {
-            AddToStack(collision.collider.transform);
+            AddToStack();
         }if (collision.gameObject.CompareTag("Obstacle") && isCollected)
         {
             RemoveFromStack(collision.transform);
         }
     }
 
-    private void AddToStack(Transform point)
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Gate") && isCollected)
+        {
+            Observer.upgraded?.Invoke(this);
+        }
+    }
+
+    private void AddToStack()
     {
         if (this.isCollected)
         {
             return;
         }
         Observer.collected?.Invoke(this);
-        PlayerCollector.Instance.stack.Add(this);
     }
 
     private void RemoveFromStack(Transform obstacleContactPoint)
     {
+        
         Vector3 collidePoint = this.transform.position - obstacleContactPoint.position;
         if (collidePoint.z < 0) 
         {
@@ -54,10 +62,5 @@ public class Collectable : MonoBehaviour
             //Side
             PlayerCollector.Instance.RemoveCollectableMultiple(this, obstacleContactPoint.localPosition);
         }
-    }
-
-    public void Upgrade()
-    {
-        //TODO
     }
 }
