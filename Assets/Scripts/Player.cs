@@ -8,12 +8,14 @@ public class Player : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private float clampValueMin, clampValueMax;
     private bool startMovement = false;
+    private bool isJumping = true;
     private Command playerMove;
     private float horizontal;
     private Vector3 direction;
     // Start is called before the first frame update
     void Start()
     {
+        Observer.switchCam?.Invoke("PlayerCam");
         Observer.StartMovement += MovePlayer;
         Observer.StopMovement += StopPlayer;
     }
@@ -36,9 +38,19 @@ public class Player : MonoBehaviour
     private void StopPlayer()
     {
         animator.SetBool("Run", false);
+        TurnAround(180);
         playerMove = new PlayerMove(this.transform, Vector3.zero, 0, 0, 0, 6);
         startMovement = false;
         Observer.StartMovement -= MovePlayer;
         ControlManager.Instance.IssueCommand(playerMove);
+    }
+
+    private void JumpInPlace()
+    {
+        //TODO
+    }
+    private void TurnAround(float angle)
+    {
+        this.transform.Rotate(0, 180, 0);
     }
 }

@@ -25,6 +25,7 @@ public class FinalRoad : MonoBehaviour
         } if (collision.collider.gameObject.CompareTag("Player"))
         {
             Debug.Log("Collided with player.");
+            Observer.switchCam?.Invoke("FinalPlayerCam");
             Observer.StopMovement?.Invoke();
         }
     }

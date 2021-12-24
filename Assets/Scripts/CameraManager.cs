@@ -7,12 +7,13 @@ public class CameraManager : MonoBehaviour
 {
     [SerializeField] public CinemachineVirtualCamera playerCam;
     [SerializeField] public CinemachineVirtualCamera finalCam;
-   
-  
+    [SerializeField] public CinemachineVirtualCamera finalPlayerCam;
+
     private void OnEnable()
     {
         CameraSwitcher.AddCamera(playerCam);
         CameraSwitcher.AddCamera(finalCam);
+        CameraSwitcher.AddCamera(finalPlayerCam);
         Observer.switchCam += SwitchCam;
     }
     private void OnDisable()
@@ -29,6 +30,9 @@ public class CameraManager : MonoBehaviour
         else if(cameraName.Equals("FinalCam") && !CameraSwitcher.IsActiveCamera(finalCam))
         {
             CameraSwitcher.SwitchCamera(finalCam);
+        } else if(cameraName.Equals("FinalPlayerCam") && !CameraSwitcher.IsActiveCamera(finalPlayerCam))
+        {
+            CameraSwitcher.SwitchCamera(finalPlayerCam);
         }
     }
 }
