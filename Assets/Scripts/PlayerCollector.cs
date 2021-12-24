@@ -4,12 +4,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 public class PlayerCollector : MonoBehaviour
 {
-    enum Direction
-    {
-        Forward,
-        Right, 
-        Left,
-    }
+
     private static PlayerCollector instance;
     public static PlayerCollector Instance => instance ?? (instance = FindObjectOfType<PlayerCollector>());
     [SerializeField] private Transform player;
@@ -29,6 +24,7 @@ public class PlayerCollector : MonoBehaviour
         Observer.collected += Collected;
         Observer.dropped += Dropped;
         Observer.upgraded += Upgrade;
+        Observer.banked += Banked;
     }
     // Update is called once per frame
     void Update()
@@ -38,7 +34,6 @@ public class PlayerCollector : MonoBehaviour
 
         if (stack.Count != 0)
         {
-
             oldPos = stack[0].transform.position;
             stack[0].transform.position = Vector3.Lerp(transform.position + Vector3.forward * gap, oldPos, 0.8f);
             for (int i = 1; i < stack.Count; i++)
@@ -91,6 +86,19 @@ public class PlayerCollector : MonoBehaviour
         collectableRef.transform.GetChild(collectableRef.collectableLevel).gameObject.SetActive(true);
         Observer.score?.Invoke(10);
     }
+    private void Banked(GameObject collectableGameObj)
+    {
+        for(int i =stack.Count-1; i >= 0; i--)
+        {
+            if(stack[i].gameObject == collectableGameObj)
+            {
+                //stack[i].isCollected = false;
+                stack.RemoveAt(i);
+                return;
+            }
+        }
+    }
+
 }
 
 

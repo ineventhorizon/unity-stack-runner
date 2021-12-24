@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         Observer.StartMovement += MovePlayer;
+        Observer.StopMovement += StopPlayer;
     }
     void Update()
     {
@@ -29,6 +30,15 @@ public class Player : MonoBehaviour
         direction = new Vector3(horizontal, 0, 1);
         animator.SetBool("Run", true);
         playerMove = new PlayerMove(this.transform, direction, speed, sideSpeed, clampValueMin, clampValueMax);
+        ControlManager.Instance.IssueCommand(playerMove);
+    }
+
+    private void StopPlayer()
+    {
+        animator.SetBool("Run", false);
+        playerMove = new PlayerMove(this.transform, Vector3.zero, 0, 0, 0, 6);
+        startMovement = false;
+        Observer.StartMovement -= MovePlayer;
         ControlManager.Instance.IssueCommand(playerMove);
     }
 }
